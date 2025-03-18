@@ -5,7 +5,7 @@ import asyncio
 import threading
 from flask import Flask
 from assessment import message_analysis_and_response  
-from countryguessr import countryguessr
+from countryguessr import countryguessr, guessend
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
@@ -25,10 +25,19 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
 
+# ------------------- GEO GUESSR COMMANDS ------------------- #
+
 @bot.command()
 async def geoguess(ctx):
     """Starts the Country Guessing game"""
     await countryguessr(ctx, bot)
+
+@bot.command()
+async def guessend(ctx):
+    """Ends the guessing game."""
+    await guessend(ctx)
+
+# ------------------- ADMIN ONLY COMMANDS ------------------- #
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -43,6 +52,8 @@ async def set_role(ctx, *, role_name: str):
 async def check_set_role(ctx):
     """Admin command to check the target role"""
     await ctx.send(f"🔍 Current Role: `{cuck_role}`")
+
+# ------------------- ALL MESSAGE (NO COMMAND) ------------------- #
 
 @bot.event
 async def on_message(message):
@@ -60,6 +71,8 @@ async def on_message(message):
         response = message_analysis_and_response(message.content)
         await message.channel.send(f"{message.author.mention}\n{response[:2000]}") 
 
+# ------------------- DEBUG COMMANDS ------------------- #
+
 @bot.command()
 async def hello(ctx):
     """Simple hello command"""
@@ -71,6 +84,7 @@ async def debug(ctx):
     await ctx.send("Debug: ✅ Bot is running!")
 
 # ---------------- KEEP ALIVE (FLASK SERVER) ---------------- #
+# ------------------- IGNORE CODE BELOW  ------------------- #
 app = Flask(__name__)
 
 @app.route('/')
