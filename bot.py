@@ -2,26 +2,27 @@ import discord
 from discord.ext import commands
 import os
 import asyncio
-import sys
-from assessment import message_analysis_and_response
 import threading
 from flask import Flask
+from assessment import message_analysis_and_response  # Your AI processing function
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
+# Setup intents
 intents = discord.Intents.default()
-intents.messages = True
+intents.message_content = True  # Required for reading messages
 intents.guilds = True
-intents.message_content = True  # Required to read user messages
-intents.members = True  # Required to check roles
+intents.members = True  # Required for role-based logic
 
-cuck_role = "Cuck"
+cuck_role = "Cuck"  # Default role
 
+# Initialize bot
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+# ---------------- DISCORD BOT EVENTS ---------------- #
 @bot.event
 async def on_ready():
-    print(f"✅ Logged in as {bot.user}")
+    print(f"✅ Bot is online as {bot.user}")
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -34,9 +35,8 @@ async def set_role(ctx, *, role_name: str):
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def check_set_role(ctx):
-    """Admin command to set the target role"""
-    global cuck_role
-    await ctx.send(f" Role is: `{cuck_role}`")
+    """Admin command to check the target role"""
+    await ctx.send(f"🔍 Current Role: `{cuck_role}`")
 
 @bot.event
 async def on_message(message):
@@ -64,12 +64,7 @@ async def debug(ctx):
     """Command to check if bot is working"""
     await ctx.send("Debug: ✅ Bot is running!")
 
-@bot.event
-async def on_disconnect():
-    print("⚠️ Bot disconnected! Restarting...")
-    await asyncio.sleep(5)
-    os.execv(sys.executable, [sys.executable] + sys.argv)  # Restart the bot
-
+# ---------------- KEEP ALIVE (FLASK SERVER) ---------------- #
 app = Flask(__name__)
 
 @app.route('/')
@@ -79,7 +74,8 @@ def home():
 def run_flask():
     app.run(host="0.0.0.0", port=7865)  # Render requires a web service
 
-# Run Flask in a separate thread
-threading.Thread(target=run_flask).start()
+# Start Flask in a separate thread (Daemon Mode to prevent blocking)
+threading.Thread(target=run_flask, daemon=True).start()
 
+# Run the bot
 bot.run(TOKEN)
