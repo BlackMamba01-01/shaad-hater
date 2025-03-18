@@ -40,5 +40,11 @@ async def on_message(message):
 async def hello(ctx):
     await ctx.send("Hello!")
 
+@bot.event
+async def on_disconnect():
+    print("Bot disconnected! Restarting...")
+    await asyncio.sleep(5)  # Wait a bit before reconnecting
+    os.execv(__file__, ["python"] + sys.argv)  # Restart the scrip
+
 bot.run(TOKEN)
 
