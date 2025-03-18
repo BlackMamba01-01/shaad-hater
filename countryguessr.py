@@ -7,10 +7,16 @@ import os
 UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY")
 
 countries = [
-    {"name": "France", "search_term": "Eiffel Tower"},
-    {"name": "Japan", "search_term": "Mount Fuji"},
-    {"name": "Brazil", "search_term": "Christ the Redeemer"},
-    # Add more countries and search terms as needed
+    {"name": "France", "search_term": "random village France"},
+    {"name": "Japan", "search_term": "small town Japan"},
+    {"name": "Brazil", "search_term": "hidden beach Brazil"},
+    {"name": "Canada", "search_term": "remote cabin Canada"},
+    {"name": "Norway", "search_term": "fjord Norway"},
+    {"name": "Russia", "search_term": "Siberian town"},
+    {"name": "South Africa", "search_term": "random street South Africa"},
+    {"name": "Mongolia", "search_term": "yurt village"},
+    {"name": "Chile", "search_term": "Patagonia landscape"},
+    {"name": "Iceland", "search_term": "volcanic landscape Iceland"},
 ]
 
 async def get_country_image():
