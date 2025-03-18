@@ -54,7 +54,7 @@ async def countryguessr(ctx):
         return
 
     active_players.add(ctx.author.id)  # Add user to active players
-    await countryguessr.start_game(ctx, active_players)  # Call function from countryguessr.py
+    await geo.start_game(ctx, active_players)  # Call function from countryguessr.py
 
 
 # ------------------- ADMIN ONLY COMMANDS ------------------- #
