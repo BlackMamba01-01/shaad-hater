@@ -31,9 +31,7 @@ async def on_message(message):
     if message.author == bot.user:
         return  # Ignore bot's own messages
 
-    ctx = await bot.get_context(message)  # Get the command context
-    if ctx.valid:
-        return await bot.process_commands(message) 
+    if message.content.startswith("!"):
         return
 
     if any(role.name == cuck_role for role in message.author.roles):
