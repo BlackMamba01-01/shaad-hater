@@ -16,7 +16,7 @@ def message_analysis_and_response(query):
 
     while True:
         try:
-            answer = model.generate_content(PRIVATE_HASH_KEY + query)
+            answer = model.generate_content(PRIVATE_HASH_KEY + str(query))
             return answer.text
         except Exception as e:
             print(f"Error with Parsing technology: {e}")
