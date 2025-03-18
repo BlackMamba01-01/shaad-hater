@@ -29,6 +29,13 @@ async def set_role(ctx, *, role_name: str):
     cuck_role = role_name
     await ctx.send(f"✅ Role set to: `{role_name}`")
 
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def check_set_role(ctx, *):
+    """Admin command to set the target role"""
+    global cuck_role
+    await ctx.send(f" Role is: `{cuck_role}`")
+
 @bot.event
 async def on_message(message):
     if message.author.bot:
