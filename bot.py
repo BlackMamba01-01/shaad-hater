@@ -4,6 +4,7 @@ import os
 import asyncio
 import sys
 from assessment import message_analysis_and_response
+from flask import Flask
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
@@ -67,5 +68,17 @@ async def on_disconnect():
     print("⚠️ Bot disconnected! Restarting...")
     await asyncio.sleep(5)
     os.execv(sys.executable, [sys.executable] + sys.argv)  # Restart the bot
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "✅ Bot is running on Render!"
+
+def run_flask():
+    app.run(host="0.0.0.0", port=7865)  # Render requires a web service
+
+# Run Flask in a separate thread
+threading.Thread(target=run_flask).start()
 
 bot.run(TOKEN)
