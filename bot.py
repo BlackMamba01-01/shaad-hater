@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+from assessment import message_analysis_and_response
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
@@ -30,11 +31,15 @@ async def on_message(message):
     if message.author == bot.user:
         return  # Ignore bot's own messages
 
+    await bot.process_commands(message)  
+
     if any(role.name == cuck_role for role in message.author.roles):
+
+        response = message_analysis_and_response(message)
+        await message.channel.send(f"{message.author.mention}\n{response[:2000]}") 
         await message.channel.send(f"Teri Maa Ki Chut {message.author.mention}!")
         return
 
-    await bot.process_commands(message)  # Ensure commands still work
 
 @bot.command()
 async def hello(ctx):
