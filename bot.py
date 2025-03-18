@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import os
+import asyncio
+import sys
 from assessment import message_analysis_and_response
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
@@ -17,37 +19,46 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user}")
+    print(f"✅ Logged in as {bot.user}")
 
 @bot.command()
-@commands.has_permissions(administrator=True)  # Only admins can use this
+@commands.has_permissions(administrator=True)
 async def set_role(ctx, *, role_name: str):
+    """Admin command to set the target role"""
     global cuck_role
     cuck_role = role_name
     await ctx.send(f"✅ Role set to: `{role_name}`")
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
-        return  # Ignore bot's own messages
+    if message.author.bot:
+        return  # Ignore bot messages
 
-    if message.content.startswith("!"):
-        return
+    ctx = await bot.get_context(message)
 
+    if ctx.valid:
+        await bot.process_commands(message)  # ✅ Run command and stop further processing
+        return  
+
+    # ✅ Only process normal messages (not commands)
     if any(role.name == cuck_role for role in message.author.roles):
-        response = message_analysis_and_response(message.content)  # No need for str(message.content)
+        response = message_analysis_and_response(message.content)
         await message.channel.send(f"{message.author.mention}\n{response[:2000]}") 
-
 
 @bot.command()
 async def hello(ctx):
+    """Simple hello command"""
     await ctx.send("Hello!")
+
+@bot.command()
+async def debug(ctx):
+    """Command to check if bot is working"""
+    await ctx.send("Debug: ✅ Bot is running!")
 
 @bot.event
 async def on_disconnect():
-    print("Bot disconnected! Restarting...")
-    await asyncio.sleep(5)  # Wait a bit before reconnecting
-    os.execv(__file__, ["python"] + sys.argv)  # Restart the scrip
+    print("⚠️ Bot disconnected! Restarting...")
+    await asyncio.sleep(5)
+    os.execv(sys.executable, [sys.executable] + sys.argv)  # Restart the bot
 
 bot.run(TOKEN)
-
