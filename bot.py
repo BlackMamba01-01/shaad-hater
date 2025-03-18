@@ -25,6 +25,11 @@ async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
 
 @bot.command()
+async def geoguess(ctx):
+    """Starts the Country Guessing game"""
+    await countryguessr(ctx, bot)
+
+@bot.command()
 @commands.has_permissions(administrator=True)
 async def set_role(ctx, *, role_name: str):
     """Admin command to set the target role"""
