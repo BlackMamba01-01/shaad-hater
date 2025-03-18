@@ -4,7 +4,8 @@ import os
 import asyncio
 import threading
 from flask import Flask
-from assessment import message_analysis_and_response  # Your AI processing function
+from assessment import message_analysis_and_response  
+from countryguessr import countryguessr
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
