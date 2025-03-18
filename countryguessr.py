@@ -67,7 +67,7 @@ async def countryguessr(ctx, bot):
                 return
             else:
                 remaining = 2 - attempt
-                await ctx.send(f"❌ Incorrect! {remaining} guesses left." if remaining > 0 else "❌ Game over!")
+                await ctx.send(f"❌ Incorrect! {remaining} guesses left." if remaining > 0 else f"❌ Game over!{country}")
         except asyncio.TimeoutError:
             await ctx.send(f"⏳ Time's up! The country was **{country}**.")
             break
