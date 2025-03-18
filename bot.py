@@ -4,6 +4,7 @@ import os
 import asyncio
 import sys
 from assessment import message_analysis_and_response
+import threading
 from flask import Flask
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
