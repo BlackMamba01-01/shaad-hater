@@ -2,3 +2,4 @@ discord
 google-generativeai
 Flask
 asyncio
+aiohttp
