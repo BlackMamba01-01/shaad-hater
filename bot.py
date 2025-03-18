@@ -37,7 +37,6 @@ async def on_message(message):
 
         response = message_analysis_and_response(message)
         await message.channel.send(f"{message.author.mention}\n{response[:2000]}") 
-        await message.channel.send(f"Teri Maa Ki Chut {message.author.mention}!")
         return
 
 
