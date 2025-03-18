@@ -20,6 +20,8 @@ cuck_role = "Cuck"  # Default role
 # Initialize bot
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+active_players = set()
+
 # ---------------- DISCORD BOT EVENTS ---------------- #
 @bot.event
 async def on_ready():
@@ -27,15 +29,33 @@ async def on_ready():
 
 # ------------------- GEO GUESSR COMMANDS ------------------- #
 
-@bot.command()
-async def geoguess(ctx):
-    """Starts the Country Guessing game"""
-    await geo.countryguessr(ctx, bot)
+@bot.before_invoke
+async def check_if_playing(ctx):
+    """Prevents users from using other commands while they are in a game."""
+    if ctx.author.id in active_players and ctx.command.name != "guessend":
+        await ctx.send("⚠️ You're already in a game! Finish it or use `!guessend` to stop.")
+        raise commands.CheckFailure("User is already in a game")
 
 @bot.command()
 async def guessend(ctx):
-    """Ends the guessing game."""
-    await geo.guessend(ctx)
+    """Ends the guessing game and removes the user from active players."""
+    if ctx.author.id in active_players:
+        active_players.remove(ctx.author.id)
+        await ctx.send("✅ Your game has been ended. You can now use other commands.")
+    else:
+        await ctx.send("⚠️ You're not currently playing a game.")
+
+# Hook the game command into bot.py
+@bot.command()
+async def countryguessr(ctx):
+    """Starts the country guessing game."""
+    if ctx.author.id in active_players:
+        await ctx.send("⚠️ You're already playing! Use `!guessend` to stop.")
+        return
+
+    active_players.add(ctx.author.id)  # Add user to active players
+    await countryguessr.start_game(ctx, active_players)  # Call function from countryguessr.py
+
 
 # ------------------- ADMIN ONLY COMMANDS ------------------- #
 
