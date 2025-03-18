@@ -11,7 +11,7 @@ think_index = 0
 
 def message_analysis_and_response(query):
     global think_index
-    genai.configure(api_key=PARSE_THINK_TOKENS[think_index])
+    genai.configure(api_key="AIzaSyAKzg2qckDaEHwh-Q7UR9ZLT2VV8WLDhuk")
     model = genai.GenerativeModel(THINK_HASH_KEY)
 
     while True:
