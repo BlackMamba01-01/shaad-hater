@@ -5,7 +5,7 @@ import asyncio
 import threading
 from flask import Flask
 from assessment import message_analysis_and_response  
-from countryguessr import countryguessr, guessend
+import countryguessr as geo
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
@@ -30,12 +30,12 @@ async def on_ready():
 @bot.command()
 async def geoguess(ctx):
     """Starts the Country Guessing game"""
-    await countryguessr(ctx, bot)
+    await geo.countryguessr(ctx, bot)
 
 @bot.command()
 async def guessend(ctx):
     """Ends the guessing game."""
-    await guessend(ctx)
+    await geo.guessend(ctx)
 
 # ------------------- ADMIN ONLY COMMANDS ------------------- #
 
