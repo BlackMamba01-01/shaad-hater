@@ -33,7 +33,8 @@ async def on_message(message):
 
     ctx = await bot.get_context(message)  # Get the command context
     if ctx.valid:
-        return await bot.process_commands(message) 
+        await bot.process_commands(message) 
+        return
 
     if any(role.name == cuck_role for role in message.author.roles):
         response = message_analysis_and_response(message.content)  # No need for str(message.content)
