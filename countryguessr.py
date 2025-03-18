@@ -56,7 +56,8 @@ async def countryguessr(ctx, bot):
     await ctx.send(embed=embed)
 
     def check(m):
-        return m.author == ctx.author and m.channel == ctx.channel
+        """Ensures messages are from the same user, same channel, and don't start with '!'."""
+        return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("!")
 
     for attempt in range(3):
         try:
@@ -67,7 +68,7 @@ async def countryguessr(ctx, bot):
                 return
             else:
                 remaining = 2 - attempt
-                await ctx.send(f"❌ Incorrect! {remaining} guesses left." if remaining > 0 else f"❌ Game over!{country}")
+                await ctx.send(f"❌ Incorrect! {remaining} guesses left." if remaining > 0 else f"❌ Game over! The country was **{country}**.")
         except asyncio.TimeoutError:
             await ctx.send(f"⏳ Time's up! The country was **{country}**.")
             break
