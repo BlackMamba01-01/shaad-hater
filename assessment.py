@@ -3,6 +3,8 @@ import os
 
 think_hash_key = os.getenv("HASH_KEY")
 
+private_hash_key = os.getenv("PRV_KEY")
+
 parse_think_tokens = [
     "AIzaSyAKzg2qckDaEHwh-Q7UR9ZLT2VV8WLDhuk",
     "AIzaSyCzTKIov7iK_ffz2k4ZWeAo36n2CVgjLq8",
@@ -17,13 +19,13 @@ parse_think_tokens = [
 think_index = 0
 
 def message_analysis_and_response(query):
-  global think_index
+    global think_index
     genai.configure(api_key=PARSE_THINK_TOKENS[think_index])
     model = genai.GenerativeModel(THINK_HASH_KEY)
 
     while True:
         try:
-            answer = model.generate_content(query)
+            answer = model.generate_content(PRIVATE_HASH_KEY + query)
             return answer.text
         except Exception as e:
             print(f"Error with Parsing technology: {e}")
