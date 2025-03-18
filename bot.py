@@ -35,7 +35,7 @@ async def on_message(message):
 
     if any(role.name == cuck_role for role in message.author.roles):
 
-        response = message_analysis_and_response(message)
+        response = message_analysis_and_response(str(message.content))
         await message.channel.send(f"{message.author.mention}\n{response[:2000]}") 
         return
 
