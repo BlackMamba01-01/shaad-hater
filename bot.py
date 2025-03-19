@@ -42,7 +42,7 @@ async def guessend(ctx):
 
 @bot.tree.command(name="setrole",description="set new role")
 @commands.has_permissions(administrator=True)
-async def set_role(interaction: discord.Interaction, role: str):
+async def setrole(interaction: discord.Interaction, role: str):
     """Admin command to set the target role"""
     global cuck_role
     cuck_role = role
