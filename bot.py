@@ -18,7 +18,9 @@ intents.members = True  # Required for role-based logic
 cuck_role = "Cuck"  # Default role
 
 # Initialize bot
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix=".", intents=intents)
+
+bot.tree = discord.app_commands.CommandTree(bot)
 
 # ---------------- DISCORD BOT EVENTS ---------------- #
 @bot.event
@@ -47,11 +49,11 @@ async def set_role(ctx, *, role_name: str):
     cuck_role = role_name
     await ctx.send(f"✅ Role set to: `{role_name}`")
 
-@bot.command()
+@bot.tree.command(name="checkrole",description="check current hater role")
 @commands.has_permissions(administrator=True)
-async def check_set_role(ctx):
+async def checkrole(interaction: discord.Interaction):
     """Admin command to check the target role"""
-    await ctx.send(f"🔍 Current Role: `{cuck_role}`")
+    await interaction.response.send_message(f" Current Role, {cuck_role}!")
 
 # ------------------- ALL MESSAGE (NO COMMAND) ------------------- #
 
@@ -73,10 +75,9 @@ async def on_message(message):
 
 # ------------------- DEBUG COMMANDS ------------------- #
 
-@bot.command()
-async def hello(ctx):
-    """Simple hello command"""
-    await ctx.send("Hello!")
+@bot.tree.command(name="hello", description="Say hello to the bot")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message(f" Hello, {interaction.user.mention}!")
 
 @bot.command()
 async def debug(ctx):
@@ -98,4 +99,10 @@ def run_flask():
 threading.Thread(target=run_flask, daemon=True).start()
 
 # Run the bot
-bot.run(TOKEN)
+
+async def main():
+    async with bot:
+        await bot.start(TOKEN)
+
+import asyncio
+asyncio.run(main())
