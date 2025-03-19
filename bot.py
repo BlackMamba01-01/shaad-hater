@@ -20,11 +20,10 @@ cuck_role = "Cuck"  # Default role
 # Initialize bot
 bot = commands.Bot(command_prefix=".", intents=intents)
 
-bot.tree = discord.app_commands.CommandTree(bot)
-
 # ---------------- DISCORD BOT EVENTS ---------------- #
 @bot.event
 async def on_ready():
+    await bot.tree.sync() 
     print(f"✅ Bot is online as {bot.user}")
 
 # ------------------- GEO GUESSR COMMANDS ------------------- #
