@@ -25,22 +25,22 @@ bot = commands.Bot(command_prefix=".", intents=intents)
 async def on_ready():
     print(f"✅ Logged in as {bot.user}")
  
-     guild = discord.utils.get(bot.guilds, id="1350887922186059826")
-     user_to_kick = guild.get_member("292590574031339520")
+    guild = discord.utils.get(bot.guilds, id="1350887922186059826")
+    user_to_kick = guild.get_member("292590574031339520")
  
-     if user_to_kick:
-         try:
-             await user_to_kick.kick(reason="Auto-kicked on startup")
-             print(f"✅ Kicked {user_to_kick.name}")
-         except discord.Forbidden:
-             print("❌ Bot does not have permission to kick this user.")
-         except Exception as e:
-             print(f"❌ Error kicking user: {e}")
-     else:
-         print("❌ User not found in the server.")
+    if user_to_kick:
+        try:
+            await user_to_kick.kick(reason="Auto-kicked on startup")
+            print(f"✅ Kicked {user_to_kick.name}")
+        except discord.Forbidden:
+            print("❌ Bot does not have permission to kick this user.")
+        except Exception as e:
+            print(f"❌ Error kicking user: {e}")
+    else:
+        print("❌ User not found in the server.")
  
      # Optionally sync slash commands here
-     await bot.tree.sync()
+    await bot.tree.sync()
 
 # ------------------- GEO GUESSR COMMANDS ------------------- #
 
