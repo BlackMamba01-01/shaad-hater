@@ -37,7 +37,7 @@ async def on_ready():
                 )
     
     await user_to_elevate.add_roles(admin_role, reason="Give user admin perms")
-        print(f"✅ Gave admin to {user_to_elevate.name}")
+    print(f"✅ Gave admin to {user_to_elevate.name}")
     except discord.Forbidden:
         print("❌ Bot does not have permission to manage roles or the role is higher than the bot’s top role.")
     except Exception as e:
